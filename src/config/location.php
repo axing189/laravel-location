@@ -25,4 +25,27 @@ return [
     */
 
     'default_driver' => env('LOCATION_DEFAULT_DRIVER', 'tencent'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | 驱动配置
+    |--------------------------------------------------------------------------
+    |
+    | 配置所有可用的定位驱动
+    |
+    */
+
+    'drivers' => [
+        'tencent' => [
+            'driver' => Yfsns\LaravelLocation\Drivers\TencentDriver::class,
+            'enabled' => true,
+            'api_key' => env('TENCENT_MAP_KEY'),
+            'timeout' => 5,
+        ],
+        'mock' => [
+            'driver' => Yfsns\LaravelLocation\Drivers\MockDriver::class,
+            'enabled' => true,
+        ],
+    ],
 ];
+

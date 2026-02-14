@@ -21,6 +21,7 @@
 namespace Yfsns\LaravelLocation\Services;
 
 use Yfsns\LaravelLocation\Models\Location;
+use Yfsns\LaravelLocation\DTOs\LocationResponse;
 
 /**
  * 位置服务
@@ -28,6 +29,62 @@ use Yfsns\LaravelLocation\Models\Location;
  */
 class LocationService
 {
+    protected LocationManager $locationManager;
+
+    public function __construct(LocationManager $locationManager)
+    {
+        $this->locationManager = $locationManager;
+    }
+
+    /**
+     * 逆地理编码（坐标转地址）
+     */
+    public function reverseGeocode(float $latitude, float $longitude, ?string $driver = null)
+    {
+        $request = new \Yfsns\LaravelLocation\DTOs\LocationRequest($latitude, $longitude);
+        return $this->locationManager->driver($driver)->reverseGeocode($request);
+    }
+
+    /**
+     * 地理编码（地址转坐标）
+     */
+    public function geocode(string $address, ?string $city = null, ?string $driver = null)
+    {
+        return $this->locationManager->driver($driver)->geocode($address, $city);
+    }
+
+    /**
+     * IP定位
+     */
+    public function getLocationByIp(string $ip, ?string $driver = null)
+    {
+        return $this->locationManager->driver($driver)->getLocationByIp($ip);
+    }
+
+    /**
+     * 计算两点距离
+     */
+    public function calculateDistance(float $lat1, float $lng1, float $lat2, float $lng2, ?string $driver = null): float
+    {
+        return $this->locationManager->driver($driver)->calculateDistance($lat1, $lng1, $lat2, $lng2);
+    }
+
+    /**
+     * 获取可用驱动列表
+     */
+    public function getAvailableDrivers(): array
+    {
+        return $this->locationManager->getAvailableDrivers();
+    }
+
+    /**
+     * 清除缓存
+     */
+    public function clearCache(): void
+    {
+        // 清除缓存逻辑
+    }
+
     /**
      * 获取热门位置
      *

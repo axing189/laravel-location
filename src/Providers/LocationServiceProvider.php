@@ -58,11 +58,8 @@ class LocationServiceProvider extends ServiceProvider
     {
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
 
-        Route::prefix('api/v1')
-            ->middleware(['api'])
-            ->group(function (): void {
-                $this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
-            });
+        // 包内路由已经有完整路径，这里直接加载
+        $this->loadRoutesFrom(__DIR__ . '/../../routes/api.php');
 
         $this->registerPublishing();
     }
